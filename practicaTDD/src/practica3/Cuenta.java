@@ -10,6 +10,9 @@ public class Cuenta {
     private String nTitular;
     private List<Movimiento> mMovimientos;
     private double saldo;
+    
+
+    private List<String> errores;
 
     public Cuenta(String numero, String titular, double saldoInicial) {
         mNumero = numero;
@@ -22,6 +25,7 @@ public class Cuenta {
                 new Movimiento(saldoInicial, Movimiento.Signo.H, "Saldo inicial")
             );
         }
+        errores = new ArrayList<>();
     }
 
     public void ingresar(double x) {
@@ -33,6 +37,7 @@ public class Cuenta {
     }
 
 
+
 public void retirar(double x) {
     if (saldo - x >= -500) {
         saldo = saldo - x;
@@ -40,8 +45,14 @@ public void retirar(double x) {
         mMovimientos.add(
             new Movimiento(x, Movimiento.Signo.D, "Reintegro")
         );
+    } else {
+        errores.add(
+            "Fondos insuficientes (saldo " + saldo
+            + " euros) para el reintegro de " + x + " euros"
+        );
     }
 }
+
 
 
     public double getSaldo() {
@@ -51,5 +62,10 @@ public void retirar(double x) {
     public List<Movimiento> getMovimientos() {
         return mMovimientos;
     }
+
+public List<String> getErrores() {
+    return errores;
+}
+
 }
 
